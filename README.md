@@ -1,3 +1,2 @@
-NodeJS Backend template. 
+Airline booking service. 
 
-![alt text](image.png)
