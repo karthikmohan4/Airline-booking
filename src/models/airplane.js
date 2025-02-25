@@ -16,10 +16,13 @@ module.exports = (sequelize, DataTypes) => {
       modelNumber: {
         type: DataTypes.STRING,
         allowNull: false,
+        isAlphanmeric:false
+        
       },
       capacity: {
         type: DataTypes.INTEGER,
         allowNull: false,
+        validate:{ max:1000}
       },
     },
     {
