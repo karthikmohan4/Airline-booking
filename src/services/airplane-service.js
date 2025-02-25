@@ -9,7 +9,7 @@ async function createAirplane(data) {
     const airplane = await airplaneRepository.create(data);
     return airplane;
   } catch (error) {
-    console.log(error);
+    console.log(error.stat);
     if (error.name === "SequelizeValidationError") {
       let explanation = [];
       error.errors.forEach((err) => {
@@ -44,11 +44,22 @@ async function getAirplane(id) {
     return airplane;
   } catch (error) {
     console.log(error.statusCode);
-    if(error.statusCode === StatusCodes.NOT_FOUND){
-      throw new AppError(
-        "Airplane not found",
-        StatusCodes.NOT_FOUND
-      ); 
+    if (error.statusCode === StatusCodes.NOT_FOUND) {
+      throw new AppError("Airplane not found", StatusCodes.NOT_FOUND);
+    }
+    throw new AppError(
+      "Cannot fetch data of the airplanes",
+      StatusCodes.INTERNAL_SERVER_ERROR
+    );
+  }
+}
+async function updateAirplane(id, data) {
+  try {
+    const response = await airplaneRepository.update(id, data);
+    return response;
+  } catch (error) {
+    if (error.statusCode === StatusCodes.NOT_FOUND) {
+      throw new AppError("Airplane not found", StatusCodes.NOT_FOUND);
     }
     throw new AppError(
       "Cannot fetch data of the airplanes",
@@ -62,12 +73,8 @@ async function deleteAirplane(id) {
     const response = await airplaneRepository.destroy(id);
     return response;
   } catch (error) {
-    console.log(error.statusCode);
-    if(error.statusCode === StatusCodes.NOT_FOUND){
-      throw new AppError(
-        "Airplane not found",
-        StatusCodes.NOT_FOUND
-      ); 
+    if (error.statusCode === StatusCodes.NOT_FOUND) {
+      throw new AppError("Airplane not found", StatusCodes.NOT_FOUND);
     }
     throw new AppError(
       "Cannot fetch data of the airplanes",
@@ -80,5 +87,6 @@ module.exports = {
   createAirplane,
   getAirplanes,
   getAirplane,
-  deleteAirplane
+  updateAirplane,
+  deleteAirplane,
 };

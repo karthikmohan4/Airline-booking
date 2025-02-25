@@ -18,16 +18,16 @@ class CrudRepository {
         id: data,
       },
     });
-    if(!response){
-      throw new AppError('No resource found',StatusCodes.NOT_FOUND);
+    if (!response) {
+      throw new AppError("No resource found", StatusCodes.NOT_FOUND);
     }
     return response;
   }
 
   async get(data) {
     const response = await this.model.findByPk(data);
-    if(!response){
-      throw new AppError('No resource found',StatusCodes.NOT_FOUND);
+    if (!response) {
+      throw new AppError("No resource found", StatusCodes.NOT_FOUND);
     }
     return response;
   }
@@ -42,6 +42,9 @@ class CrudRepository {
         id: id,
       },
     });
+    if (!response) {
+      throw new AppError("No resource found", StatusCodes.NOT_FOUND);
+    }
     return response;
   }
 }

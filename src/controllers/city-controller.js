@@ -1,24 +1,21 @@
 const { StatusCodes } = require("http-status-codes");
-const { AirplaneService } = require("../services");
+const { CityService } = require("../services");
 const { SuccessResponse, ErrorResponse } = require("../utils/common");
-async function createAirplane(req, res) {
+async function createCity(req, res) {
   try {
-    const airplane = await AirplaneService.createAirplane({
-      modelNumber: req.body.modelNumber,
-      capacity: req.body.capacity,
-    });
-    SuccessResponse.data = airplane;
+    const city = await CityService.createCity({name:req.body.name});
+    SuccessResponse.data = city;
     return res.status(StatusCodes.CREATED).json(SuccessResponse);
   } catch (error) {
     ErrorResponse.error = error;
-    return res.status(error.StatusCode).json(ErrorResponse);
+    return res.status(error.statusCode).json(ErrorResponse);
   }
 }
 
-async function getAirplanes(req, res) {
+async function getCities(req, res) {
   try {
-    const airplanes = await AirplaneService.getAirplanes();
-    SuccessResponse.data = airplanes;
+    const cities = await CityService.getCities();
+    SuccessResponse.data = cities;
     return res.status(StatusCodes.OK).json(SuccessResponse);
   } catch (error) {
     ErrorResponse.error = error;
@@ -26,20 +23,20 @@ async function getAirplanes(req, res) {
   }
 }
 
-async function getAirplane(req, res) {
+async function getCity(req, res) {
     try {
-      const airplane = await AirplaneService.getAirplane(req.params.id);
-      SuccessResponse.data = airplane;
+      const city = await CityService.getCity(req.params.id);
+      SuccessResponse.data = city;
       return res.status(StatusCodes.OK).json(SuccessResponse);
     } catch (error) {
       ErrorResponse.error = error;
       return res.status(error.statusCode).json(ErrorResponse);
     }
   }
-  async function updateAirplane(req,res) {
+  async function updateCity(req,res) {
     try {
       console.log(req.body);
-      const response = await AirplaneService.updateAirplane(req.params.id,req.body);
+      const response = await CityService.updateCity(req.params.id,req.body);
       SuccessResponse.data = response;
       return res.status(StatusCodes.OK).json(SuccessResponse);
     } catch (error) {
@@ -48,10 +45,10 @@ async function getAirplane(req, res) {
     }
   }
 
-  async function deleteAirplane(req, res) {
+  async function deleteCity(req, res) {
     try {
-      const airplane = await AirplaneService.deleteAirplane(req.params.id);
-      SuccessResponse.data = airplane;
+      const city = await CityService.deleteCity(req.params.id);
+      SuccessResponse.data = city;
       return res.status(StatusCodes.OK).json(SuccessResponse);
     } catch (error) {
       ErrorResponse.error = error;
@@ -59,9 +56,9 @@ async function getAirplane(req, res) {
     }
   }
 module.exports = {
-  createAirplane,
-  getAirplanes,
-  getAirplane,
-  deleteAirplane,
-  updateAirplane
+  createCity,
+  getCities,
+  getCity,
+  deleteCity,
+  updateCity
 };
